@@ -1,2 +1,0 @@
-# messenger
-realtime-messenger-pusher
