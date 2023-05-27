@@ -13,10 +13,20 @@ interface ButtonProps {
   disabled?: boolean
 }
 
-const Button: FC<ButtonProps> = (props) => {
+const Button: FC<ButtonProps> = ({
+  children,
+  danger,
+  disabled,
+  fullWidth,
+  onClick,
+  secondary,
+  type,
+}) => {
   return (
     <button
-      {...props}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
       className={clsx(
         `
           flex
@@ -30,17 +40,17 @@ const Button: FC<ButtonProps> = (props) => {
           focus-visible:outline-2
           focus-visible:outline-offset-2
         `,
-        props.disabled && 'opacity-50 cursor-default',
-        props.fullWidth && 'w-full',
-        props.secondary ? 'text-gray-900' : 'text-white',
-        props.danger &&
+        disabled && 'opacity-50 cursor-default',
+        fullWidth && 'w-full',
+        secondary ? 'text-gray-900' : 'text-white',
+        danger &&
           'bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600',
-        !props.secondary &&
-          !props.danger &&
+        !secondary &&
+          !danger &&
           'bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-600'
       )}
     >
-      {props.children}
+      {children}
     </button>
   )
 }
