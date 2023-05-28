@@ -19,7 +19,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      name: 'credentials',
+      name: 'Credentials',
       credentials: {
         email: { label: 'email', type: 'text' },
         password: { label: 'password', type: 'password' },
@@ -56,7 +56,6 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET,
 }
 
 const handler = NextAuth(authOptions)
