@@ -9,6 +9,7 @@ import { BsGithub, BsGoogle } from 'react-icons/bs'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
@@ -16,8 +17,8 @@ export const AuthForm = () => {
   const session = useSession()
   const [variant, setVariant] = useState<Variant>('LOGIN')
   const [isLoading, setIsLoading] = useState(false)
-  console.log(session);
-  
+  const router = useRouter()
+
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
       setVariant('REGISTER')
@@ -44,6 +45,7 @@ export const AuthForm = () => {
     if (variant === 'REGISTER') {
       axios
         .post('/api/register', data)
+        .then(() => signIn('credentials', data))
         .catch(() => toast.error('Something went wrong!'))
         .finally(() => setIsLoading(false))
     }
@@ -59,6 +61,7 @@ export const AuthForm = () => {
           }
           if (callback?.ok && !callback.error) {
             toast.success('Logged in!')
+            router.push('/users')
           }
         })
         .finally(() => setIsLoading(false))
@@ -82,9 +85,9 @@ export const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      console.log('Authenticated')
+      router.push('/users')
     }
-  }, [session?.status])
+  }, [session?.status, router])
 
   return (
     <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
